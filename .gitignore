@@ -1,4 +1,4 @@
-﻿# Entorno virtual
+# Entorno virtual
 venv/
 env/
 
@@ -9,8 +9,11 @@ env/
 __pycache__/
 *.pyc
 
-# Base de datos local (si algún día usas sqlite de prueba)
+# Base de datos local de prueba (sqlite)
 db.sqlite3
+
+# Archivos generados por collectstatic (despliegue)
+staticfiles/
 
 # Imágenes subidas por los usuarios (no son código, no van al repo)
 media/
