@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar sesión · MotorStock</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <main class="login">
+    <section class="login-panel">
+      <img class="login-logo" src="{% static 'img/logo.png' %}" alt="MotorStock">
+
+      <div class="login-mensaje">
+        <h1>Cada pieza en su lugar.<br>Tu almacén bajo control.</h1>
+        <p>Catálogo, existencias y movimientos en un solo lugar. Trabaja con información clara y mantén tu inventario al día.</p>
+        <div class="login-nota">Visibilidad para decidir. Orden para avanzar.</div>
+      </div>
+
+      <p class="login-pie">MOTORSTOCK / GESTIÓN DE INVENTARIO AUTOMOTRIZ</p>
+    </section>
+
+    <section class="login-formulario">
+      <form class="login-caja" method="post" novalidate>
+        {% csrf_token %}
+        <p class="login-saludo">Bienvenido de nuevo</p>
+        <h2>Iniciar sesión</h2>
+        <p class="ayuda">Ingresa con tu cuenta de trabajo.</p>
+
+        {% if error %}<p class="alerta-error" role="alert">{{ error }}</p>{% endif %}
+
+        <div class="campo">
+          <label for="correo">Correo electrónico</label>
+          <input type="email" id="correo" name="correo" value="{{ correo }}" placeholder="ana@ejemplo.com" required autofocus>
+          <p class="ayuda">Usa el correo registrado por tu administrador.</p>
+        </div>
+
+        <div class="campo">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <button type="submit" class="btn btn-primario btn-ancho">Iniciar sesión</button>
+        <p class="ayuda ayuda-pie">¿Necesitas acceso? Contacta a tu administrador.</p>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
