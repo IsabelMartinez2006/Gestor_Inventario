@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MotorStock · Gestión de inventario</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="app">
+
+  <aside class="lateral">
+    <a class="lateral-logo" href="{% url 'usuarios:inicio' %}">
+      <img src="{% static 'img/logo.png' %}" alt="MotorStock">
+    </a>
+
+    <nav class="lateral-nav" aria-label="Principal">
+      {% comment %}
+        Los enlaces de los demás módulos están comentados con la marca de comentario de plantilla
+         porque sus rutas aún no existen.
+      {% endcomment %}
+      <p class="nav-seccion">Gestión de inventario</p>
+      <a class="nav-enlace {% if seccion == 'resumen' %}activo{% endif %}" href="{% url 'usuarios:inicio' %}">Resumen</a>
+      {# <a class="nav-enlace {% if seccion == 'inventario' %}activo{% endif %}" href="{% url 'inventario:listado' %}">Inventario</a> #}
+      {# <a class="nav-enlace {% if seccion == 'movimientos' %}activo{% endif %}" href="{% url 'movimientos:listado' %}">Movimientos</a> #}
+
+      {# <p class="nav-seccion">Catálogo</p> #}
+      {# <a class="nav-enlace {% if seccion == 'piezas' %}activo{% endif %}" href="{% url 'piezas:listado' %}">Piezas</a> #}
+      {# <a class="nav-enlace {% if seccion == 'marcas' %}activo{% endif %}" href="{% url 'marcas:listado' %}">Marcas</a> #}
+
+      {% if request.session.rol == "administrador" %}
+      <p class="nav-seccion">Administración</p>
+      <a class="nav-enlace {% if seccion == 'usuarios' %}activo{% endif %}" href="{% url 'usuarios:listado' %}">Usuarios</a>
+      {% endif %}
+    </nav>
+
+    <div class="lateral-pie">
+      <div class="tarjeta-almacen">
+        <strong>Almacén principal</strong>
+        <span>Control de refacciones</span>
+      </div>
+      <div class="usuario-bloque">
+        <span class="avatar">{{ request.session.iniciales }}</span>
+        <div>
+          <strong>{{ request.session.nombre }}</strong>
+          <span>{{ request.session.rol|capfirst }}</span>
+        </div>
+      </div>
+      <form method="post" action="{% url 'usuarios:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-salir">Cerrar sesión</button>
+      </form>
+    </div>
+  </aside>
+
+  <div class="principal">
+    <header class="barra-superior">
+      <p class="migas">Almacén principal <span>›</span> <strong>{% block titulo %}{{ titulo }}{% endblock %}</strong></p>
+      <p class="acceso-rol">Acceso de {{ request.session.rol }}</p>
+    </header>
+
+    <main class="contenido">
+      {% if messages %}
+        {% for mensaje in messages %}
+          <p class="{% if mensaje.tags == 'error' %}alerta-error{% else %}alerta-exito{% endif %}" role="status">{{ mensaje }}</p>
+        {% endfor %}
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>
