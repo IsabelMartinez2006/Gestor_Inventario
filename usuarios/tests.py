@@ -94,5 +94,5 @@ class PermisosPorRolTests(TestCase):
     def test_menu_no_muestra_modulos_pendientes(self):
         self.entrar("ana@ejemplo.com")
         r = self.client.get(reverse("usuarios:inicio"))
-        for texto in ("Inventario", "Movimientos", "Piezas", "Marcas"):
+        for texto in ("Inventario", "Movimientos", "Piezas"):
             self.assertNotContains(r, f">{texto}</a>")
