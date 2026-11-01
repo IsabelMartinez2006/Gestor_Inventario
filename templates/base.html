@@ -18,16 +18,16 @@
     <nav class="lateral-nav" aria-label="Principal">
       {% comment %}
         Los enlaces de los demás módulos están comentados con la marca de comentario de plantilla
-         porque sus rutas aún no existen.
+        porque sus rutas aún no existen. 
       {% endcomment %}
       <p class="nav-seccion">Gestión de inventario</p>
       <a class="nav-enlace {% if seccion == 'resumen' %}activo{% endif %}" href="{% url 'usuarios:inicio' %}">Resumen</a>
       {# <a class="nav-enlace {% if seccion == 'inventario' %}activo{% endif %}" href="{% url 'inventario:listado' %}">Inventario</a> #}
       {# <a class="nav-enlace {% if seccion == 'movimientos' %}activo{% endif %}" href="{% url 'movimientos:listado' %}">Movimientos</a> #}
 
-      {# <p class="nav-seccion">Catálogo</p> #}
+      <p class="nav-seccion">Catálogo</p>
       {# <a class="nav-enlace {% if seccion == 'piezas' %}activo{% endif %}" href="{% url 'piezas:listado' %}">Piezas</a> #}
-      {# <a class="nav-enlace {% if seccion == 'marcas' %}activo{% endif %}" href="{% url 'marcas:listado' %}">Marcas</a> #}
+      <a class="nav-enlace {% if seccion == 'marcas' %}activo{% endif %}" href="{% url 'marcas:listado' %}">Marcas</a>
 
       {% if request.session.rol == "administrador" %}
       <p class="nav-seccion">Administración</p>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block titulo %}Eliminar marca{% endblock %}
+
+{% block content %}
+<div class="tarjeta-formulario">
+  {% if total %}
+    <h1>No se puede eliminar</h1>
+    <p class="ayuda">Esta marca tiene piezas asociadas. Primero revisa las piezas de esa marca.</p>
+    <div class="acciones-formulario">
+      <a class="btn btn-primario" href="{% url 'marcas:listado' %}">Entendido</a>
+    </div>
+  {% else %}
+    <h1>¿Eliminar la marca {{ marca.nombre }}?</h1>
+    <p class="ayuda">No tiene piezas asociadas. Esta acción no se puede deshacer.</p>
+    <form method="post">
+      {% csrf_token %}
+      <div class="acciones-formulario">
+        <a class="btn" href="{% url 'marcas:listado' %}">Cancelar</a>
+        <button type="submit" class="btn btn-eliminar">Eliminar marca</button>
+      </div>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}
