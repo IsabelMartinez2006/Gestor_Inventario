@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block titulo %}Marcas{% endblock %}
+
+{% block content %}
+<div class="encabezado-pagina">
+  <div>
+    <h1>Marcas</h1>
+    <p>Organiza las marcas asociadas a las piezas de tu catálogo.</p>
+  </div>
+  {% if request.session.rol == "administrador" %}
+    <a class="btn btn-primario" href="{% url 'marcas:nueva' %}">Nueva marca</a>
+  {% endif %}
+</div>
+
+<div class="barra-filtros">
+  <form method="get" class="buscador">
+    <input type="search" name="q" value="{{ q }}" placeholder="Buscar marca…" aria-label="Buscar marca">
+    <button type="submit" class="btn">Buscar</button>
+    {% if q %}<a class="btn" href="{% url 'marcas:listado' %}">Limpiar</a>{% endif %}
+  </form>
+  <p class="contador">{{ total_registradas }} marca{{ total_registradas|pluralize }} registrada{{ total_registradas|pluralize }}</p>
+</div>
+
+<div class="tabla-contenedor">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Piezas asociadas</th>
+        {% if request.session.rol == "administrador" %}<th>Acciones</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for marca in pagina %}
+      <tr>
+        <td><strong>{{ marca.nombre }}</strong></td>
+        {% with n=marca.total_piezas %}
+        <td>{{ n }} pieza{{ n|pluralize }}</td>
+        {% endwith %}
+        {% if request.session.rol == "administrador" %}
+        <td><a class="btn btn-peligro" href="{% url 'marcas:eliminar' marca.id_marca %}">Eliminar</a></td>
+        {% endif %}
+      </tr>
+      {% empty %}
+      <tr><td colspan="3" class="vacio">{% if q %}Ninguna marca coincide con «{{ q }}».{% else %}Todavía no hay marcas registradas.{% endif %}</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="tabla-pie">
+    <span>{{ pagina.paginator.count }} registro{{ pagina.paginator.count|pluralize }}</span>
+    <div class="paginacion">
+      <span>{{ por_pagina }} por página</span>
+      {% if pagina.has_previous %}<a class="btn" href="?q={{ q|urlencode }}&page={{ pagina.previous_page_number }}">Anterior</a>{% else %}<span class="btn deshabilitado">Anterior</span>{% endif %}
+      <span class="pagina-actual">{{ pagina.number }}</span>
+      {% if pagina.has_next %}<a class="btn" href="?q={{ q|urlencode }}&page={{ pagina.next_page_number }}">Siguiente</a>{% else %}<span class="btn deshabilitado">Siguiente</span>{% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="nota-info">
+  <strong>Protege la información de tu catálogo</strong>
+  <span>Una marca con piezas asociadas no se puede eliminar.</span>
+</div>
+{% endblock %}

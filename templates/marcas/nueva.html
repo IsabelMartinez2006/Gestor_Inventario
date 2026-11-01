@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titulo %}Nueva marca{% endblock %}
+
+{% block content %}
+<div class="tarjeta-formulario">
+  <h1>{% if error %}Revisa el nombre{% else %}Nueva marca{% endif %}</h1>
+  <p class="ayuda">{% if error %}{{ error }}{% else %}Agrega una marca al catálogo.{% endif %}</p>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="campo">
+      <label for="nombre">Nombre *</label>
+      <input type="text" id="nombre" name="nombre" value="{{ nombre }}" placeholder="Ej. Mazda" maxlength="100" required autofocus {% if error %}class="invalido"{% endif %}>
+      <p class="ayuda">Evita nombres duplicados.</p>
+    </div>
+    <div class="acciones-formulario">
+      <a class="btn" href="{% url 'marcas:listado' %}">Cancelar</a>
+      <button type="submit" class="btn btn-primario">Guardar marca</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
